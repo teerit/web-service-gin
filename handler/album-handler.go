@@ -27,3 +27,16 @@ func PostAlbums(c *gin.Context) {
 	model.Albums = append(model.Albums, newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
 }
+
+// getAlbumByID locates the album whose ID value matches the id
+func GetAlbumByID(c *gin.Context) {
+	id := c.Param("id")
+
+	for _, v := range model.Albums {
+		if v.ID == id {
+			c.IndentedJSON(http.StatusOK, v)
+			return
+		}
+	}
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+}
